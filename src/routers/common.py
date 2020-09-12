@@ -15,6 +15,11 @@ async def index_page(request: Request):
     return templates.TemplateResponse('base.html', {'request': request})
 
 
+@router.get('/tb/')
+async def index_page(request: Request):
+    return templates.TemplateResponse('toolbox/index.html', {'request': request})
+
+
 @router.get('/tb/{tool_name}/')
 async def tb_page(request: Request, tool_name: str):
     tpl_name = 'toolbox/{}.html'.format(tool_name)
