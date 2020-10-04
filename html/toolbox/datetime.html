@@ -284,6 +284,14 @@
                 <div class="main">
                     <form class="layui-form" action="">
                         <div class="layui-form-item">
+                            <label class="layui-form-label">前日期时间</label>
+                            <div class="layui-form-mid layui-word-aux" id="showDateTime"></div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">当前时间戳</label>
+                            <div class="layui-form-mid layui-word-aux" id="showTimestamp"></div>
+                        </div>
+                        <div class="layui-form-item">
                             <label class="layui-form-label">时间戳</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="timestamp" id="timestampInput" required lay-verify="required" placeholder="示例: 1599914152" autocomplete="off" class="layui-input">
@@ -342,6 +350,7 @@
         return date.yyyymmdd();
     }
 
+
     layui.use(['form', 'laydate', 'table'], function() {
         var $ = layui.jquery,
             form = layui.form,
@@ -350,7 +359,7 @@
 
         var dateBox = laydate.render({
             elem: '#dateInput',
-            show: true,
+            // show: true,
             change: function(value, date, endDate) {
                 alert(value);
             }
@@ -359,7 +368,7 @@
         var dateTimeBox = laydate.render({
             elem: '#datetimeInput',
             format: 'yyyy-MM-dd HH:mm:ss',
-            show: true,
+            // show: true,
             change: function(value, date, endDate) {
                 console.log(value, date, endDate)
             }
@@ -376,6 +385,22 @@
 
 
     });
+
+
+    (function () {
+        getRealTime();
+
+        setInterval("getRealTime();", 1000); //每隔一秒执行一次
+
+    })();
+    function getRealTime() {
+        var myDate = new Date();
+
+        var seconds = Math.floor(new Date().getTime() / 1000);
+
+        document.getElementById("showDateTime").innerHTML = myDate.yyyymmdd();
+        document.getElementById("showTimestamp").innerHTML = seconds;
+    }
     </script>
 </body>
 
