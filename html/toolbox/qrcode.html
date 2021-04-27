@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}ToolBox QRCode{% endblock %}
+{% block extendStyle %}
+<style>
+#qrcodebox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+#qrcodebox > div{
+    flex: 1;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.InputData {
+    border: 1px solid #cfcfcf;
+}
+textarea {
+    resize: none;
+    padding: 12px;
+}
+</style>
+{% endblock extendStyle %}
+
+{% block container %}
+<div class="main">
+   <h2>生成 QRCode</h2>
+    <div id="qrcodebox">
+       <div><textarea id="InputData" style="width: 80%; height: 200px;"></textarea></div>
+       <div id="QRCode"></div>
+   </div>
+</div>
+{% endblock %}
+
+{% block extendScript %}
+<script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const defaultData = "https://github.com/istommao/toolbox-online";
+
+var qrcode = new QRCode("QRCode", {
+    text: defaultData,
+    width: 200,
+    height: 200,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+});
+var InputData = document.getElementById('InputData');
+InputData.value = defaultData;
+(function() {
+    InputData.onkeyup = function(event) {
+        if (InputData.value) {
+            qrcode.clear();
+            qrcode.makeCode(InputData.value);
+        }
+    };
+
+})();
+
+
+</script>
+{% endblock extendScript %}

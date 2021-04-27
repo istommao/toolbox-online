@@ -1,248 +1,25 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
-
 <head>
     <meta charset="UTF-8">
-    <title>ToolBox Online</title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="shortcut icon" href="/static/imgs/cat1.png" />
-    <style>
-    body {
-        background: #fbfbfb;
-    }
-
-    * {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-        font-family: -apple-system, Source Sans Pro, BlinkMacSystemFont, PingFang SC, Helvetica, Tahoma, Arial, Hiragino Sans GB, Microsoft YaHei, "\5FAE\8F6F\96C5\9ED1", sans-serif;
-        font-size: 14px;
-        font-weight: 400;
-        /*color: #303659;*/
-        -webkit-font-smoothing: antialiased;
-    }
-
-    .wrapper {
-        width: 100%;
-        min-width: 1200px;
-        min-height: 100vh;
-        position: relative;
-    }
-
-    .wrapper .menu {
-        height: 70px;
-        width: 100%;
-        margin: 0 auto;
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        z-index: 199;
-        box-shadow: 0 1px 2px rgba(180, 195, 255, .3);
-    }
-
-    .wrapper .menu_front {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        background: #fff;
-    }
-
-    .wrapper .menu_front .container {
-        width: 1200px;
-        max-width: 100%;
-        margin: auto;
-        height: 100%;
-        position: relative;
-    }
-
-    .flex-between {
-        width: 100%;
-        -webkit-box-pack: justify;
-        justify-content: space-between;
-    }
-
-    .flex-between,
-    .flex-center {
-        display: -webkit-box;
-        display: flex;
-        -webkit-box-align: center;
-        align-items: center;
-    }
-
-    .wrapper .menu_front .left {
-        width: 8%;
-    }
-
-    #LogoLink {
-        margin-left: 50px;
-    }
-
-    .wrapper .menu_front .right {
-        width: 24%;
-    }
-
-    .wrapper .menu_front .middle {
-        height: 100%;
-        -webkit-box-flex: 1;
-        flex: 1;
-        position: relative;
-        display: -webkit-box;
-        display: flex;
-        /*-webkit-box-align: center;
-        align-items: center;*/
-
-        -webkit-box-pack: justify;
-        justify-content: space-between;
-    }
-
-    .page {
-        background: #fbfbfb;
-        padding: 20px 0 150px;
-    }
-
-    .page .container {
-        width: 980px;
-        margin: 0 auto;
-        margin-top: 80px;
-    }
-
-    .page .container h1 {
-        font-size: 30px;
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
-    .page .container .description {
-        text-align: center;
-    }
-
-    .page .container .sector {
-        /*margin: 20px 0;*/
-    }
-
-    .page .container h2 {
-        font-size: 16px;
-        text-align: left;
-        margin: 10px 0 20px;
-        /*padding-top: 20px;*/
-        font-weight: 700;
-    }
-
-    .page .container .links {
-        display: -webkit-box;
-        display: flex;
-        flex-wrap: wrap;
-        -webkit-box-pack: justify;
-        justify-content: space-between;
-    }
-
-    .page .container .links .link {
-        width: 310px;
-        background: #fff;
-        display: -webkit-box;
-        display: flex;
-        box-shadow: 0 1px 5px rgba(180, 195, 255, .3);
-        -webkit-transition: all .2s ease;
-        transition: all .2s ease;
-        -webkit-box-align: center;
-        align-items: center;
-        padding: 15px 10px;
-        margin-bottom: 20px;
-        border-radius: 2px;
-        cursor: pointer;
-        border: 1px solid transparent;
-    }
-
-    .page .container .links .link img {
-        width: 30px;
-        height: 30px;
-        -o-object-fit: contain;
-        object-fit: contain;
-        margin-right: 10px;
-        -webkit-transition: all .2s ease;
-        transition: all .2s ease;
-    }
-
-    .page .container .links .link .info {
-        width: 230px;
-    }
-
-    .page .container .links a:hover {
-        border: 1px solid #20A0FF;
-    }
-
-    .page .container h3 {
-        font-size: 14px;
-    }
-
-    .page .container .links .link .info p {
-        font-size: 12px;
-        color: #888ea2;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        width: 100%;
-        display: block;
-        text-align: left;
-        line-height: 1.8;
-    }
-
-    a {
-        cursor: pointer;
-        outline: none;
-        display: -webkit-box;
-        display: flex;
-        -webkit-box-align: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        justify-content: center;
-    }
-
-    .page .container .links:after {
-        content: "";
-        width: 310px;
-        display: block;
-        height: 0;
-    }
-
-    a,
-    a:hover,
-    a:visited {
-        text-decoration: none;
-    }
-
-    .activeBox {
-        border: 1px solid #20A0FF;
-    }
-
-    .wrapper .menu_front .flex-center a {
-        font-size: 16px;
-    }
-
-    .wrapper .menu_front .flex-center img {
-        height: 46px;
-    }
-
-    .wrapper .menu_front .middle .nav-item .item {
-        color: #303659;
-        cursor: pointer;
-        font-size: 16px;
-        line-height: 22px;
-        margin-right: 4px;
-        width: 80px;
-    }
-
-    .wrapper .menu_front .middle .nav-item a:hover {
-        color: #20A0FF;
-    }
-    </style>
+    {% block baseStyle %}
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/static/css/layui-theme.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/base.css" />
+    {% endblock baseStyle %}
+    {% block extendStyle %}
+    {% endblock extendStyle %}
 </head>
 
 <body>
     <div class="wrapper">
         <div class="menu">
+            {% block menu %}
             <div class="menu_front">
                 <div class="container flex-between">
                     <div class="flex-center left">
@@ -299,43 +76,20 @@
                     </style>
                 </div>
             </div>
+            {% endblock %}
         </div>
         <div class="page">
-            <div class="container">
-                <!-- <h1>收藏家</h1>
-                <p class="description">共收录 16 个分类， 119 个站点</p> -->
-                <div class="sectors">
-                    <div class="sector">
-                        <!--  <h2>综合</h2>
-                        <div class="links">
-                            <a href="/onepage/detail/?category=图库资源" class="link"><img src="https://c.codingcat.top/upload/1594473351/c4b7fc22.jpg" alt="">
-                                <div class="info">
-                                    <h3>图库资源</h3>
-                                    <p>图库资源</p>
-                                </div>
-                            </a>
-                            <a href="/onepage/detail/?category=短网址" class="link"><img src="https://c.codingcat.top/upload/1594471935/de13d1f7.jpg" alt="">
-                                <div class="info">
-                                    <h3>短网址</h3>
-                                    <p>短网址</p>
-                                </div>
-                            </a>
-                            <a href="/onepage/detail/?category=文件图床" class="link"><img src="https://c.codingcat.top/upload/1594472678/2fedd9bc.jpg" alt="">
-                                <div class="info">
-                                    <h3>文件图床</h3>
-                                    <p>文件图床</p>
-                                </div>
-                            </a>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
+            <div class="container">{% block container %}{% endblock container %}</div>
         </div>
     </div>
     <div style="display: none;">
         <!--         <script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1279042607&web_id=1279042607"></script> -->
     </div>
+    {% block baseScript %}
     <script src="https://www.layuicdn.com/layui/layui.js" charset="utf-8"></script>
+    {% endblock baseScript %}
+
+    {% block extendScript %}
     <script>
     layui.use(['form', 'layedit', 'laydate', 'upload'], function() {
         var form = layui.form,
@@ -347,6 +101,7 @@
         var baseURL = document.location.origin;
     });
     </script>
+    {% endblock extendScript %}
 </body>
 
 </html>
