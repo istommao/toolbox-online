@@ -1,6 +1,8 @@
 """routers."""
 from typing import Optional
 
+import jinja2
+
 from fastapi import FastAPI, Request, APIRouter
 from fastapi.templating import Jinja2Templates
 
@@ -23,7 +25,12 @@ async def index_page(request: Request):
 @router.get('/tb/{tool_name}/')
 async def tb_page(request: Request, tool_name: str):
     tpl_name = 'toolbox/{}.html'.format(tool_name)
-    return templates.TemplateResponse(tpl_name, {'request': request})
+    try:
+        resp = templates.TemplateResponse(tpl_name, {'request': request})
+    except jinja2.exceptions.TemplateNotFound:
+        return templates.TemplateResponse('toolbox/index.html', {'request': request})
+    else:
+        return resp
 
 
 @router.get('/toolbox/{tool_name}/')
