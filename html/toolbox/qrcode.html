@@ -30,8 +30,9 @@ h2 {
 {% block container %}
 <div class="main">
    <h2>生成 QRCode</h2>
+    <div style="width:50%;text-align: left; float: right"><button id="downloadBtn">下载QRCode</button></div>
     <div id="qrcodebox">
-       <div><textarea id="InputData" style="width: 80%; height: 200px;"></textarea></div>
+       <div><textarea placeholder="输入内容生成二维码或拖拽图片解析二维码" id="InputData" style="width: 80%; height: 200px;"></textarea></div>
        <div id="QRCode"></div>
    </div>
 </div>
@@ -39,8 +40,9 @@ h2 {
 
 {% block extendScript %}
 <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="/static/js/qrcode-parser.min.js"></script>
 <script>
-const defaultData = "https://github.com/istommao/toolbox-online";
+const defaultData = "";
 
 var qrcode = new QRCode("QRCode", {
     text: defaultData,
@@ -51,8 +53,18 @@ var qrcode = new QRCode("QRCode", {
     correctLevel : QRCode.CorrectLevel.H
 });
 var InputData = document.getElementById('InputData');
+var QRCodeBlock = document.getElementById('QRCode');
+var downloadBtn = document.getElementById('downloadBtn');
+
 InputData.value = defaultData;
+
 (function() {
+    InputData.focus();
+
+    downloadBtn.onclick = function(event) {
+        downloadQRCode('QRCode.png');
+    };
+
     InputData.onkeyup = function(event) {
         if (InputData.value) {
             qrcode.clear();
@@ -60,6 +72,109 @@ InputData.value = defaultData;
         }
     };
 
+    var getObjectURL = function(file){
+        var url = null ; 
+        if (window.createObjectURL != undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+
+    InputData.addEventListener("drop", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var df = e.dataTransfer;
+
+        var file = e.dataTransfer.files[0];
+        var reader = new FileReader();
+        // console.log(e.dataTransfer.types);
+        // console.log(file);
+
+        if (file && file.type.substr(0, 5) == "image") {
+            var result = getObjectURL(file);
+            // console.log(result);
+            // console.log(qrcode);
+            qrcodeParser(file).then(res => {
+                InputData.value = res.data;
+                qrcode.clear();
+                qrcode.makeCode(InputData.value);
+            }).catch( errMsg =>  {
+                console.log(errMsg);
+            });
+            // qrcode.decode(result);
+            // reader.readAsDataURL(file);
+            // reader.onload = function (f) {
+            //     var image = new Image();
+            //     image.height = 200;
+            //     image.title = file.name;
+            //     image.src = this.result;
+            //     QRCodeBlock.innerHTML = "";
+            //     QRCodeBlock.appendChild(image);
+            //     console.log(this.result);
+            // }
+        }
+
+        if (file && file.type.substr(0, 4) == "text") {
+            reader.readAsText(file);
+            reader.onload = function (f) {
+            }
+        }
+
+    })
+
 })();
+
+
+var getBlob = function(b64Data, fileName, sliceSize=512) {
+    var mimeString = b64Data.split(',')[0].split(':')[1].split(';')[0]; // mime类型
+    var byteCharacters = atob(b64Data.split(',')[1]); //base64 解码
+
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, {type: mimeString});
+    return blob;
+}
+
+var downloadBlob = function(blob, fileName) {
+    var link = document.createElement('a');  
+    var href = window.URL.createObjectURL(blob);
+    link.href = href;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+
+    // 延时保证下载成功执行，否则可能下载未找到文件的问题
+    setTimeout(function () {
+        window.URL.revokeObjectURL(href); // 释放Url对象
+        document.body.removeChild(link);
+    }, 100);
+}
+
+var downloadQRCode = function (fileName) {
+    let canvas = qrcode._el.querySelector("canvas");
+    var base64Text = canvas.toDataURL("image/png");
+    if (InputData.value) {
+        var blob = getBlob(base64Text);
+        downloadBlob(blob, fileName);
+    }
+}
+
 </script>
 {% endblock extendScript %}
