@@ -55,7 +55,6 @@ var InputData = document.getElementById('InputData');
 var PreviewBox = document.getElementById('PreviewBox');
 InputData.value = '';
 
-
 (function() {
     InputData.focus();
     InputData.onkeyup = function(event) {
@@ -73,11 +72,15 @@ InputData.value = '';
 
 
 var Base64Encode = function(data) {
-    return window.btoa(window.encodeURIComponent(data));
+    return window.btoa(unescape(encodeURIComponent(data)));
 }
 
 var Base64Decode = function(data) {
-    return window.decodeURIComponent(window.atob(data));    
+    try {
+        return decodeURIComponent(escape(window.atob(data)));
+    } catch {
+        return '';
+    }
 }
 </script>
 {% endblock extendScript %}
