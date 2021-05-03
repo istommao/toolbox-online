@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}ToolBox HTML preview{% endblock %}
+{% block title %}ToolBox Base64{% endblock %}
 {% block extendStyle %}
 <style>
 #htmlpreview {
@@ -41,34 +41,43 @@ textarea {
 {% block container %}
 <div class="main">
    <div id="htmlpreview">
-       <div class="boxItem"><textarea id="InputData"></textarea></div>
+       <div class="boxItem"><textarea placeholder="请输入原文" id="InputData"></textarea></div>
        <div class="boxItem">
-           <div id="PreviewBox"></div>
+            <textarea placeholder="请输入Base64编码文本" id="PreviewBox"></textarea>
        </div>
    </div>
 </div>
 {% endblock %}
 
 {% block extendScript %}
-<script src="/static/js/jshtmlformat.js"></script>
 <script>
 var InputData = document.getElementById('InputData');
 var PreviewBox = document.getElementById('PreviewBox');
 InputData.value = '';
 
-var tabchar = '  ';
 
 (function() {
     InputData.focus();
     InputData.onkeyup = function(event) {
         if (InputData.value) {
-            var tabsize = 4;
-            InputData.value = style_html(InputData.value, tabsize, tabchar, 80);
-
-            PreviewBox.innerHTML = InputData.value;
+            PreviewBox.value = Base64Encode(InputData.value);
         }
     };
 
+    PreviewBox.onkeyup = function(event) {
+        if (PreviewBox.value) {
+            InputData.value = Base64Decode(PreviewBox.value);
+        }
+    };
 })();
+
+
+var Base64Encode = function(data) {
+    return window.btoa(window.encodeURIComponent(data));
+}
+
+var Base64Decode = function(data) {
+    return window.decodeURIComponent(window.atob(data));    
+}
 </script>
 {% endblock extendScript %}

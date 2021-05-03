@@ -12,5 +12,7 @@ toolbox-online
 - [ ] RMB Number
 - [ ] useragent
 - [ ] image tool
-- [ ] qrcode
+- [X] qrcode
+- [X] Base64
+
 
