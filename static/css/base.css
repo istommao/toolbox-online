@@ -101,7 +101,8 @@
 }
 
 .page .container {
-    width: 90%;
+    /*width: 90%;*/
+    width: 980px;
     margin: 0 auto;
     margin-top: 80px;
 }
@@ -137,7 +138,8 @@
 }
 
 .page .container .links .link {
-    width: 310px;
+    /*width: 310px;*/
+    width: 288px;
     background: #fff;
     display: -webkit-box;
     display: flex;

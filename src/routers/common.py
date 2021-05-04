@@ -14,7 +14,7 @@ templates = Jinja2Templates(directory='html')
 
 @router.get('/')
 async def index_page(request: Request):
-    return templates.TemplateResponse('base.html', {'request': request})
+    return templates.TemplateResponse('home.html', {'request': request})
 
 
 @router.get('/tb/')

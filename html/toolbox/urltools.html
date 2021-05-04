@@ -59,6 +59,7 @@ InputData.value = '';
     InputData.focus();
     InputData.onkeyup = function(event) {
         if (InputData.value) {
+            InputData.value = urlDecode(InputData.value);
             PreviewBox.value = urlEncode(InputData.value);
         }
     };

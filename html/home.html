@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}online{% endblock %}
+{% block container %}
+<h1>ToolBox Online</h1>
+<p class="description">共收录 8 个分类， 119 个工具 总有一款 适合你</p>
+<div class="sectors">
+    <div class="sector">
+        <h2>热门</h2>
+        <div class="links">
+            <a href="/tb/datetime" class="link"><img src="/static/imgs/datetime.png" alt="">
+                <div class="info">
+                    <h3>日期与时间</h3>
+                    <p>日期时间处理</p>
+                </div>
+            </a>
+             <a href="/tb/qrcode" class="link"><img src="/static/imgs/qrcode.png" alt="">
+                <div class="info">
+                    <h3>QRCode</h3>
+                    <p>生成二维码</p>
+                </div>
+            </a>
+              <a href="/tb/htmlpreview" class="link"><img src="/static/imgs/htmlpreview.png" alt="">
+                <div class="info">
+                    <h3>HTML Preview</h3>
+                    <p>HTML预览</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="sector">
+        <h2>最新</h2>
+        <div class="links">
+                    <a href="/tb/urltools" class="link">
+            <img src="/static/imgs/url.png" alt="">
+            <div class="info">
+                <h3>URL 编解码</h3>
+                <p>URL 编解码</p>
+            </div>
+        </a>
+                        <a href="/tb/base64" class="link"><img src="/static/imgs/base64.png" alt="">
+            <div class="info">
+                <h3>Base64编解码</h3>
+                <p>Base64编解码</p>
+            </div>
+        </a>
+            <a href="/tb/md5" class="link"><img src="/static/imgs/md5.png" alt="">
+            <div class="info">
+                <h3>md5加密</h3>
+                <p>md5加密</p>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}
