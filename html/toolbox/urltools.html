@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}ToolBox URL{% endblock %}
+{% block extendStyle %}
+<style>
+#htmlpreview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 450px;
+}
+#htmlpreview > .boxItem{
+    flex: 1;
+    width: 50%;
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+    box-sizing: border-box;
+}
+.boxItem:first-child {
+    border-right: 1px dashed #ccc;
+}
+#InputData {
+    width: 100%;
+    height: 450px;
+}
+textarea {
+    resize: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+#PreviewBox {
+    height: 450px;
+    width: 100%;
+    overflow: auto;
+}
+</style>
+{% endblock extendStyle %}
+
+{% block container %}
+<div class="main">
+   <div id="htmlpreview">
+       <div class="boxItem"><textarea placeholder="请输入URL" id="InputData"></textarea></div>
+       <div class="boxItem">
+            <textarea placeholder="请输入编码后的URL" id="PreviewBox"></textarea>
+       </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block extendScript %}
+<script>
+var InputData = document.getElementById('InputData');
+var PreviewBox = document.getElementById('PreviewBox');
+InputData.value = '';
+
+(function() {
+    InputData.focus();
+    InputData.onkeyup = function(event) {
+        if (InputData.value) {
+            PreviewBox.value = urlEncode(InputData.value);
+        }
+    };
+
+    PreviewBox.onkeyup = function(event) {
+        if (PreviewBox.value) {
+            InputData.value = urlDecode(PreviewBox.value.split('\n\n\n')[0]);
+
+            PreviewBox.value = urlEncode(InputData.value);
+        }
+    }
+})();
+
+var urlDecode = function(data) {
+    const result = window.decodeURIComponent(data);
+    return result;
+};
+
+var urlEncode = function(data) {
+    let params;
+    try {
+        params = (new URL(data)).searchParams;
+    } catch {
+        return data;
+    }
+    const params_list = [];
+    for (const item of params) {
+        const key = item[0];
+        const value = item[1];
+
+        params_list.push(key + ' = ' + value);
+    }
+    const result = window.encodeURIComponent(data);
+    params_string = params_list.join('\n');
+
+    return result + '\n\n\n' + params_string + '\n';
+};
+</script>
+{% endblock extendScript %}
