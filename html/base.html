@@ -103,6 +103,21 @@
 
         var baseURL = document.location.origin;
     });
+    (function() {
+        var allLinks = document.getElementsByClassName('link');
+        var onMouseOverFunc = function() {
+            var rawSrc = this.firstElementChild.src;
+            this.firstElementChild.src = rawSrc.replace('.png', '.hover.png');
+        }
+        var onMouseOutFunc = function() {
+            var rawSrc = this.firstElementChild.src;
+            this.firstElementChild.src = rawSrc.replace('.hover.png', '.png');
+        }
+        for (var i = 0; i < allLinks.length; i++) {
+            allLinks[i].addEventListener('mouseover', onMouseOverFunc, false);
+            allLinks[i].addEventListener('mouseout', onMouseOutFunc, false);
+        }
+    })();
     </script>
     {% endblock extendScript %}
 </body>
