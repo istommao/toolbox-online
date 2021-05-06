@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}ToolBox idcard check{% endblock %}
+
+{% block container %}
+<div class="main">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">身份证号码</label>
+            <div class="layui-input-block">
+                <input style="width: 300px" id="IdCardInput" type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                 <div class="layui-form-mid layui-word-aux">
+                   <p id="checkResult">请输入身份证</p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地区</label>
+            <div class="layui-form-mid layui-word-aux">
+                <p id="checkResult">浙江省杭州市</p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">生日</label>
+            <div class="layui-form-mid layui-word-aux">
+                <p id="checkResult">2020.1.6</p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-form-mid layui-word-aux">
+                <p id="checkResult">男</p>
+            </div>
+        </div>
+       <!--  <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-submit="" lay-filter="demo1">校验</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div> -->
+    </form>
+</div>
+{% endblock %}
+
+{% block extendScript %}
+<script>
+var baseURL = document.location.origin;
+(function() {
+  document.getElementById('IdCardInput').focus();
+})();
+</script>
+{% endblock extendScript %}
