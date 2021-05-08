@@ -44,8 +44,19 @@
 {% block extendScript %}
 <script>
 var baseURL = document.location.origin;
+var isValidIDCard = function(idcard) {
+    let isvalid = false;
+    const factors = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+
+    return isvalid;
+}
+
 (function() {
   document.getElementById('IdCardInput').focus();
+  var idcard = document.getElementById('IdCardInput').value;
+
+  isValidIDCard(idcard);
+
 })();
 </script>
 {% endblock extendScript %}

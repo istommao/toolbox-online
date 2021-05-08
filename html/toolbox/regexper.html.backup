@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>正则可视化工具</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta
+            name="description"
+            content="Regular expression visualizer using railroad diagrams"
+        />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="theme-color" content="#bada55" />
+        <link
+            rel="shortcut icon"
+            href="/static/regexper/favicon.ico"
+        />
+        <link
+            rel="stylesheet"
+            href="/static/regexper/css/main.css"
+        />
+        <!-- Built: 2018-06-27T13:00:01.600Z -->
+    </head>
+
+    <body>
+        <!-- github fork me -->
+        <a href="https://github.com/aoxiaoqiang/reg" target="_blank">
+            <img
+                style="position: absolute; top: 0; right: 0; border: 0;"
+                src="/static/regexper/css/forkme_right_green.png"
+                alt="Fork me on GitHub"
+            />
+        </a>
+        <header>
+            <div class="logo">
+                <h1 class="site-title">
+                    <a href="https://aoxiaoqiang.github.io/reg/">正则可视化工具</a>
+                </h1>
+                <span class="site-sub-title">你以为你没有问题, 其实......</span>
+            </div>
+        </header>
+
+        <main id="content">
+            <div class="application">
+                <form id="regexp-form">
+                    <textarea
+                        id="regexp-input"
+                        autofocus="autofocus"
+                        placeholder="请输入JavaScript风格的正则表达式"
+                    ></textarea>
+                    <div class="operate-btns">
+                        <button type="submit" class="green-button">可视化</button>
+                    </div>
+
+                    <ul class="inline-list">
+                        <li class="download-svg">
+                            <a
+                                href="#"
+                                class="inline-icon"
+                                data-action="download-svg"
+                                download="image.svg"
+                                type="image/svg+xml"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    viewBox="0 0 8 8"
+                                >
+                                    <use xlink:href="#data-transfer-download" /></svg
+                                >保存为 SVG</a
+                            >
+                        </li>
+                        <li class="download-png">
+                            <a
+                                href="#"
+                                class="inline-icon"
+                                data-action="download-png"
+                                download="image.png"
+                                type="image/png"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    viewBox="0 0 8 8"
+                                >
+                                    <use xlink:href="#data-transfer-download" /></svg
+                                >保存为 PNG</a
+                            >
+                        </li>
+                        <li class="permalink">
+                            <a href="#" class="inline-icon" data-action="permalink"></a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="results">
+                <div id="error"></div>
+                <ul id="warnings"></ul>
+                <div id="regexp-render"></div>
+            </div>
+        </main>
+
+        <footer>
+            <script type="text/html" id="svg-container-base">
+                <div class="svg">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                    version="1.1">
+                    <defs>
+                      <style type="text/css">
+                        svg {
+                          background-color: #fff;
+                        }
+
+                        .root text,
+                        .root tspan {
+                          font: 12px Arial;
+                        }
+
+                        .root path {
+                          fill-opacity: 0;
+                          stroke-width: 2px;
+                          stroke: #000;
+                        }
+
+                        .root circle {
+                          fill: #6b6659;
+                          stroke-width: 2px;
+                          stroke: #000;
+                        }
+
+                        .anchor text,
+                        .any-character text {
+                          fill: #fff;
+                        }
+
+                        .anchor rect,
+                        .any-character rect {
+                          fill: #6b6659;
+                        }
+
+                        .escape text,
+                        .charset-escape text,
+                        .literal text {
+                          fill: #000;
+                        }
+
+                        .escape rect,
+                        .charset-escape rect {
+                          fill: #bada55;
+                        }
+
+                        .literal rect {
+                          fill: #dae9e5;
+                        }
+
+                        .charset .charset-box {
+                          fill: #cbcbba;
+                        }
+
+                        .subexp .subexp-label tspan,
+                        .charset .charset-label tspan,
+                        .match-fragment .repeat-label tspan {
+                          font-size: 10px;
+                        }
+
+                        .repeat-label {
+                          cursor: help;
+                        }
+
+                        .subexp .subexp-label tspan,
+                        .charset .charset-label tspan {
+                          dominant-baseline: text-after-edge;
+                        }
+
+                        .subexp .subexp-box {
+                          stroke: #908c83;
+                          stroke-dasharray: 6, 2;
+                          stroke-width: 2px;
+                          fill-opacity: 0;
+                        }
+
+                        .quote {
+                          fill: #908c83;
+                        }
+                      </style>
+                    </defs>
+                  </svg>
+                </div>
+                <div class="progress">
+                  <div style="width:0;"></div>
+                </div>
+            </script>
+
+            <!-- 在线测试 -->
+            <div class="my-online-test-box">
+                <div class="line">
+                    <div class="field">待匹配文本:</div>
+                    <div class="field-set">
+                        <textarea
+                            class="pre-test-words"
+                            id="preTestWords"
+                            placeholder="请输入待匹配文本"
+                            spellcheck="false"
+                        ></textarea>
+                    </div>
+                </div>
+                <div class="line">
+                    <div class="field">正则表达式:</div>
+                    <div class="field-set">
+                        <input
+                            class="pre-test-reg"
+                            type="text"
+                            id="preTestReg"
+                            placeholder="请输入JavaScript风格正则表达式"
+                            spellcheck="false"
+                        />
+                        <div class="test-plus">
+                            <input type="checkbox" id="chMutiple" value="g" />
+                            <label for="chMutiple">全局匹配</label>
+                            <input type="checkbox" id="chIgnore" value="i" />
+                            <label for="chIgnore">忽略大小写</label>
+                        </div>
+                        <div class="btn-line">
+                            <button class="btn-reg-test green-button" id="btnRegTest">
+                                开始匹配
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="line result">
+                    <div class="field">匹配结果:</div>
+                    <div class="field-set">
+                        <textarea
+                            disabled
+                            class="pre-test-words"
+                            id="resultTestWords"
+                            placeholder="匹配结果"
+                            spellcheck="false"
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- End 在线测试 -->
+
+            <script
+                src="/static/regexper/js/main.js"
+                async
+                defer
+            ></script>
+            <script
+                src="/static/regexper/js/online-test.js"
+                async
+                defer
+            ></script>
+
+            <!-- 文档 -->
+            <ul class="docs-list">
+                <li>相关文档</li>
+                <li>
+                    <a href="https://aoxiaoqiang.github.io/reg/doc.html" target="_blank"
+                        >可视化实例标识说明</a
+                    >
+                </li>
+                <li>
+                    <a
+                        href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions"
+                        target="_blank"
+                        >JavaScript正则表达式</a
+                    >
+                </li>
+                <li>
+                    <a href="https://www.jianshu.com/p/f396882051ee" target="_blank"
+                        >JavaScript中的正则</a
+                    >
+                </li>
+            </ul>
+
+            <div class="footer-copy">
+                项目说明: 本项目翻译自
+                <a href="https://regexper.com/">https://regexper.com/</a> 站点(源项目由
+                <a href="mailto:jeff.avallone@gmail.com" target="_blank"
+                    >Jeff Avallone</a
+                >创建)。由于官网(源站点)访问速度较慢,
+                所以备份了一份并翻译为中文方便国内开发者。项目仅供学习参考使用，如有侵权请
+                <a href="https://github.com/aoxiaoqiang" target="_blank">联系开发者</a
+                >删除相关内容。在原项目基础上又添加了在线测试正则功能，如果问题或者建议可补充提
+                <a href="https://github.com/aoxiaoqiang/reg/issues" target="_blank"
+                    >issue</a
+                >.
+                <br />
+            </div>
+        </footer>
+    </body>
+</html>
