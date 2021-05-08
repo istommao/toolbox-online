@@ -32,7 +32,7 @@ h2 {
 
 {% block container %}
 <div class="main">
-   <h2>生成 QRCode</h2>
+   <h2>生成/识别 QRCode</h2>
     <div style="width:50%;text-align: left; float: right"><button id="downloadBtn">下载QRCode</button></div>
     <div id="qrcodebox">
        <div><textarea placeholder="输入内容生成二维码或拖拽图片解析二维码" id="InputData" style="width: 80%; height: 300px;"></textarea></div>
@@ -147,7 +147,7 @@ InputData.value = defaultData;
             try {
                 file = dataURLtoFile(base64Data,'qrcode.png');    
             } catch (err) {
-                alert('二维码解析失败，请检查二维码是否有效，是否清晰');
+                Toast('解析失败，请检查二维码是否有效、清晰');
                 console.log(err);
                 return;
             }
@@ -233,6 +233,5 @@ var downloadQRCode = function (fileName) {
         downloadBlob(blob, fileName);
     }
 }
-
 </script>
 {% endblock extendScript %}
