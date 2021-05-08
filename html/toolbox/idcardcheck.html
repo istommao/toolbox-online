@@ -16,19 +16,19 @@
         <div class="layui-form-item">
             <label class="layui-form-label">地区</label>
             <div class="layui-form-mid layui-word-aux">
-                <p id="checkResult">浙江省杭州市</p>
+                <p id="regionResult"></p>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">生日</label>
             <div class="layui-form-mid layui-word-aux">
-                <p id="checkResult">2020.1.6</p>
+                <p id="birthdayResult"></p>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">性别</label>
             <div class="layui-form-mid layui-word-aux">
-                <p id="checkResult">男</p>
+                <p id="genderResult"></p>
             </div>
         </div>
        <!--  <div class="layui-form-item">
@@ -42,21 +42,70 @@
 {% endblock %}
 
 {% block extendScript %}
+<script src="/static/js/region.code.min.js"></script>
 <script>
-var baseURL = document.location.origin;
+(function() {
+    var InputData = document.getElementById('IdCardInput');
+    var checkResult = document.getElementById('checkResult');
+    var regionResult = document.getElementById('regionResult');
+    var birthdayResult = document.getElementById('birthdayResult');
+
+    InputData.focus();
+    InputData.onkeyup = function(event) {
+        if (InputData.value) {
+            checkResult.innerHTML = '';
+            regionResult.innerHTML = '';
+            birthdayResult.innerHTML = '';
+            genderResult.innerHTML = '';
+
+            if (isValidIDCard(InputData.value)) {
+                var region_name = REGION_CODE_MAP[InputData.value.substr(0, 6)];
+                if (region_name) {
+                    checkResult.innerHTML = '有效的身份证号码';
+                    regionResult.innerHTML = region_name;
+
+                    birthdayResult.innerHTML = InputData.value.substr(6, 8);
+
+                    genderResult.innerHTML = getGenderResult(InputData.value);
+                } else {
+                    checkResult.innerHTML = '无效的身份证,地区码错误';
+                }
+            } else {
+                checkResult.innerHTML = '无效的身份证号码';
+            }
+        }
+    };
+
+})();
+
+var getGenderResult = function(idcard) {
+    return parseInt(idcard[16]) % 2 === 0 ? '女': '男';
+}
+
 var isValidIDCard = function(idcard) {
+    var idcard = idcard.toString();
+    if (idcard.length != 18) {
+        return false;
+    }
+
     let isvalid = false;
+    let intWord;
     const factors = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+    const ckcodes = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
+
+    let copulas = 0;
+
+    for (var index = 0; index < idcard.length - 1; index++) {
+        intWord = parseInt(idcard[index]);
+        if (isNaN(intWord)) {
+            return false;
+        } else {
+            copulas += intWord * factors[index];
+        }
+    }
+    isvalid = ckcodes[copulas % 11].toUpperCase() == idcard[idcard.length - 1].toUpperCase()
 
     return isvalid;
 }
-
-(function() {
-  document.getElementById('IdCardInput').focus();
-  var idcard = document.getElementById('IdCardInput').value;
-
-  isValidIDCard(idcard);
-
-})();
 </script>
 {% endblock extendScript %}
