@@ -2,6 +2,15 @@
 {% block title %}ToolBox QRCode{% endblock %}
 {% block extendStyle %}
 <style>
+.main {
+    width: 100%;
+    padding: 10px 10px 0 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 5px rgba(180, 195, 255, .3);
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+    border-radius: 2px;
+}
 #qrcodebox {
     display: flex;
     justify-content: center;
@@ -13,30 +22,47 @@
     flex: 1;
     text-align: left;
     box-sizing: border-box;
-    height: 300px;
+    height: 350px;
 }
 
 textarea {
     resize: none;
-    padding: 12px;
+    padding: 0 12px;
     /*border: 1px solid #efefef;*/
     border: none;
-    height: 300px;
+    height: 350px;
     border-right: 1px dashed #ccc;
 }
 h2 {
     text-indent: 12px;
+}
+#QRCode {
+    height: 350px;
+    line-height: 350px;
+}
+#downloadBtn {
+    border: 1px solid #ececec;
+    padding: 5px;
+    color: #333;
+    cursor: pointer;
+    border-radius: 3px;
+}
+#downloadBtn:hover {
+    background: rgba(40,119,255,.9);
+    color: white;
 }
 </style>
 {% endblock extendStyle %}
 
 {% block container %}
 <div class="main">
-   <h2>生成/识别 QRCode</h2>
-    <div style="width:50%;text-align: left; float: right"><button id="downloadBtn">下载QRCode</button></div>
-    <div id="qrcodebox">
-       <div><textarea placeholder="输入内容生成二维码或拖拽图片解析二维码" id="InputData" style="width: 80%; height: 300px;"></textarea></div>
-       <div id="QRCode"></div>
+    <div class="mainBlock">
+        <div style="width:50%;text-align: left; float: left"><h2>生成/识别 QRCode</h2></div>
+        <div style="line-height: 24px;height:24px;width:50%;margin-top: 10px;text-align: left; float: right"><button id="downloadBtn">下载QRCode</button></div>
+        <div id="qrcodebox">
+           <div><textarea placeholder="输入内容生成二维码或拖拽图片解析二维码" id="InputData" style="width: 80%; height: 350px;"></textarea></div>
+           <div id="QRCode"></div>
+       </div>
    </div>
 </div>
 {% endblock %}
