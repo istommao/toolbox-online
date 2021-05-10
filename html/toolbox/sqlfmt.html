@@ -69,7 +69,7 @@ InputData.value = '';
 
 var doSQLFormat = function(data) {
     var result = sqlFormatter.format(data, {indent: "\t"});
-    return result;
+    return result + '\n';
 }
 </script>
 {% endblock extendScript %}
