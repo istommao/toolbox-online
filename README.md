@@ -4,18 +4,29 @@ toolbox-online
 
 ## Feature
 
+### Encode / Decode 
+
+- [X] Base64
+- [X] URL parse
+- [X] md5
+- [ ] sha
+## Encryption / Decryption
+
+- [ ] AES
+- [ ] RSA
+
+## Other
+
 - [X] SQL format
 - [X] JSON format
 - [X] Regexper
 - [X] timestamp
 - [X] IDCard
 - [X] QRCode
-- [X] md5
-- [X] Base64
-- [X] URL parse
 - [ ] hexconvert
 - [ ] htpasswd
 - [ ] Region Code
 - [ ] RMB Number
 - [ ] useragent
 - [ ] image tool
+- [ ] Binary data transform
