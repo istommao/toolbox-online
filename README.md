@@ -9,7 +9,7 @@ toolbox-online
 - [X] Base64
 - [X] URL parse
 - [X] md5
-- [ ] sha
+- [X] sha
 ## Encryption / Decryption
 
 - [ ] AES
@@ -30,3 +30,4 @@ toolbox-online
 - [ ] useragent
 - [ ] image tool
 - [ ] Binary data transform
+- [X] Prism preview

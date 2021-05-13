@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}ToolBox Prism{% endblock %}
+{% block extendStyle %}
+<link href="/static/css/prism.css" rel="stylesheet" />
+<style>
+.copy-to-clipboard-button {
+    cursor: pointer;
+}
+.htmlpreview {
+    display: block;
+    width: 100%;
+}
+.htmlpreview > .boxItem{
+    width: 100%;
+    margin: 0;
+    text-align: left;
+}
+
+#InputData {
+    width: 100%;
+    height: 450px;
+    border-bottom: 1px dashed #ccc;
+}
+textarea {
+    resize: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+#PreviewBox {
+    width: 100%;
+    min-height: 450px;
+    overflow: auto;
+}
+</style>
+{% endblock extendStyle %}
+
+{% block container %}
+<div class="main">
+   <div class="htmlpreview">
+       <div class="boxItem"><textarea placeholder="请输入Markdown原文" id="InputData"></textarea></div>
+       </div>
+       <div class="boxItem" id="PreviewBox"></div>
+   </div>
+</div>
+{% endblock %}
+
+{% block extendScript %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="/static/js/prism.js"></script>
+<script>
+var InputData = document.getElementById('InputData');
+var PreviewBox = document.getElementById('PreviewBox');
+InputData.value = '';
+
+(function() {
+    InputData.focus();
+    InputData.onkeyup = function(event) {
+        if (InputData.value) {
+            PreviewBox.innerHTML = PrismPreview(InputData.value);
+            Prism.highlightAll();
+        }
+    };
+})();
+
+
+var PrismPreview = function(data) {
+    return marked(data);
+}
+</script>
+{% endblock extendScript %}
