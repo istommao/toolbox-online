@@ -11,3 +11,7 @@
 - [playcode.io](https://playcode.io/new/)
 - [Python Online](https://www.programiz.com/python-programming/online-compiler/)
 - [onecompiler](https://onecompiler.com/javascript)
+
+- [pypyjs](https://pypyjs.org/editor.html)
+
+- [tutorialspoint](https://www.tutorialspoint.com/)
