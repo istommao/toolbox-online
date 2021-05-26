@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}ToolBox MIME{% endblock %}
+{% block extendStyle %}
+<link href="/static/css/prism.css" rel="stylesheet" />
+<style>
+.copy-to-clipboard-button {
+    cursor: pointer;
+}
+.htmlpreview {
+    display: block;
+    width: 100%;
+}
+.htmlpreview > .boxItem{
+    width: 100%;
+    margin: 0;
+    text-align: left;
+}
+
+#InputData {
+    width: 100%;
+    height: 450px;
+    border-bottom: 1px dashed #ccc;
+}
+textarea {
+    resize: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+#PreviewBox {
+    width: 100%;
+    min-height: 450px;
+    overflow: auto;
+}
+
+#PreviewBox table, td, th {
+    border: 1px solid #e4e8ee; padding:10px;
+}
+#PreviewBox table {
+    margin: 0 auto;
+    width: 100%;
+}
+
+#PreviewBox table th {
+    background: #f4f4f8;
+}
+#PreviewBox table th:first-child {
+    width: 400px;
+}
+#PreviewBox table th:nth-child(2) {
+    width: 100px;
+}
+/*#PreviewBox table th:nth-child(3) {
+    width: 250px;
+}*/
+</style>
+{% endblock extendStyle %}
+
+{% block container %}
+<div class="main">
+   <div class="htmlpreview">
+       <div class="boxItem" id="PreviewBox">
+       </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block extendScript %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="/static/js/prism.js"></script>
+<script>
+var PreviewBox = document.getElementById('PreviewBox');
+
+var data = `
+|  MIME Type   | file extension  |     desc    |
+|  ----        |       ----      |     ----    |
+| application/vnd.openxmlformats-officedocument.spreadsheetml.sheet     |      xlsx        | 微软 office Excel   |
+| application/vnd.openxmlformats-officedocument.presentationml.presentation    |   pptx      | 微软 Office PowerPoint  |
+| application/json    |     json         | json 格式  |
+| text/javascript |     js         | javascript  |
+| application/pdf |     pdf         | PDF 文件格式  |
+| text/csv    |     csv         | CSV 格式 Comma-separated values  |
+| application/epub+zip    |     epub         | Electronic publication (EPUB)   |
+| audio/aac    |     aac         | audio/aac
+  |
+| image/png    |     png         | PNG 图片格式  |
+`;
+
+
+var PrismPreview = function(data) {
+    return marked(data);
+}
+
+
+PreviewBox.innerHTML = PrismPreview(data);
+
+</script>
+{% endblock extendScript %}
