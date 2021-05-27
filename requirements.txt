@@ -2,3 +2,4 @@ fastapi==0.61.1
 uvicorn==0.11.8
 aiofiles==0.5.0
 Jinja2==2.11.2
+pypinyin==0.41.0
