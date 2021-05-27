@@ -2,6 +2,9 @@
 {% block title %}ToolBox PinYin{% endblock %}
 {% block extendStyle %}
 <style>
+div {
+  font-size: 16px;
+}
 #htmlpreview {
     display: flex;
     justify-content: center;
@@ -16,6 +19,7 @@
     padding: 10px;
     text-align: left;
     box-sizing: border-box;
+    font-size: 16px;
 }
 .boxItem:first-child {
     border-right: 1px dashed #ccc;
@@ -30,8 +34,15 @@ textarea {
     margin: 0;
     border: none;
 }
+.word-item {
+  display: inline-block;
+  width: 45px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
 #PreviewBox {
-    height: 450px;
+    height: 470px;
     width: 100%;
     overflow: auto;
 }
@@ -42,8 +53,8 @@ textarea {
 <div class="main">
    <div id="htmlpreview">
        <div class="boxItem"><textarea placeholder="请输入原文 获取拼音" id="InputData"></textarea></div>
-       <div class="boxItem">
-            <textarea placeholder="" id="PreviewBox"></textarea>
+       <div class="boxItem" id="PreviewBox">
+         <!-- <div class="word-item"><div>dùn</div><div>顿</div></div> -->
        </div>
    </div>
 </div>
@@ -59,7 +70,9 @@ InputData.value = '';
     InputData.focus();
     InputData.onkeyup = delay(function(event) {
         if (InputData.value) {
-            updatePinyinResult(InputData.value);
+            const intpuStr = InputData.value.match(/[\u4e00-\u9fa5]/g).join("")
+
+            updatePinyinResult(intpuStr);
         }
     }, 1200);
 })();
@@ -75,14 +88,22 @@ function delay(callback, ms) {
   };
 }
 
-var renderPinyinResult = function(data) {
-    var result = data;
+var renderPinyinResult = function(inputdata, data) {
+    const result = data.map(el => el[0]);
 
-    PreviewBox.value = result;
+    const html = [];
+
+    result.forEach(function(item, index) {
+      var worditem = `<div class=\"word-item\"><div>${item}</div><div>${inputdata[index]}</div></div>`;
+
+      html.push(worditem);
+    });
+
+    PreviewBox.innerHTML = html.join('');
 }
 
-var updatePinyinResult = function(data) {
-    fetch("/api/hzpinyin/", {method: "POST", body: JSON.stringify({data: data})})
+var updatePinyinResult = function(inputdata) {
+    fetch("/api/hzpinyin/", {method: "POST", body: JSON.stringify({data: inputdata})})
       .then(
         function(response) {
           if (response.status !== 200) {
@@ -92,7 +113,7 @@ var updatePinyinResult = function(data) {
           }
 
           response.json().then(function(data) {
-            renderPinyinResult(data);
+            renderPinyinResult(inputdata, data);
           });
         }
       )

@@ -17,4 +17,6 @@ class RequestItem(BaseModel):
 @router.post('/api/hzpinyin/')
 async def hzpinyin_api(item: RequestItem):
     payload = item.data
-    return await get_pinyin_result(payload)
+    result = await get_pinyin_result(payload)
+
+    return result
