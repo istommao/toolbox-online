@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}ToolBox Latex{% endblock %}
+{% block extendStyle %}
+<link rel="stylesheet" href="/static/katex/katex.min.css">
+<style>
+.copy-to-clipboard-button {
+    cursor: pointer;
+}
+.htmlpreview {
+    display: block;
+    width: 100%;
+}
+.htmlpreview > .boxItem{
+    width: 100%;
+    margin: 0;
+    text-align: left;
+}
+
+#InputData {
+    width: 100%;
+    height: 250px;
+    border-bottom: 1px dashed #ccc;
+}
+textarea {
+    resize: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+#PreviewBox {
+    width: 100%;
+    min-height: 300px;
+    overflow: auto;
+    margin: 15px;
+}
+</style>
+{% endblock extendStyle %}
+
+{% block container %}
+<div class="main">
+   <div class="htmlpreview">
+       <div class="boxItem"><textarea placeholder="请输入Latex" id="InputData"></textarea></div>
+       </div>
+       <div class="boxItem" id="PreviewBox"></div>
+   </div>
+</div>
+{% endblock %}
+
+{% block extendScript %}
+<script src="/static/katex/katex.min.js"></script>
+<script src="/static/katex/auto-render.min.js"></script>
+<script>
+var InputData = document.getElementById('InputData');
+var PreviewBox = document.getElementById('PreviewBox');
+InputData.value = '';
+
+(function() {
+    InputData.focus();
+    InputData.onkeyup = function(event) {
+        if (InputData.value) {
+            PreviewBox.innerHTML = KatexPreview(InputData.value);
+        }
+    };
+})();
+
+
+var KatexPreview = function(inputdata) {
+    const result = katex.renderToString(inputdata, {throwOnError: false});
+
+    return result;
+}
+</script>
+{% endblock extendScript %}
