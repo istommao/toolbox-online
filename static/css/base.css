@@ -11,14 +11,14 @@
     background: #fbfbfb;
 }
 
-* {
+/** {
     padding: 0;
     margin: 0;
 
     font-size: 14px;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
-}
+}*/
 
 .wrapper {
     width: 100%;
