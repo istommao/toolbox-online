@@ -5,9 +5,9 @@
 </head>
 
 <body>
-  <p>Run Python Code</p>
+  <p>Python Dict Format</p>
   <!-- <input id='code' value='x'> -->
-  <textarea id='code' style='width: 100%;min-height: 200px;'></textarea>
+  <textarea id='code' style='width: 100%;' rows='6'></textarea>
   <button onclick='evaluatePython()'>Run</button>
   <br>
   <br>
@@ -15,22 +15,11 @@
     Output:
   </div>
 
-  <textarea id='output' style='min-height: 200px; width: 100%;' disabled></textarea>
+  <textarea id='output' style='min-height: 300px; width: 100%;' disabled></textarea>
 
   <script>
     const output = document.getElementById("output");
     const code = document.getElementById("code");
-
-    (function () {
-      var old = console.log;
-      console.log = function (message) {
-          if (typeof message == 'object') {
-              output.value += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '\n';
-          } else {
-              output.value += message + '\n';
-          }
-      }
-    })();
 
     function addToOutput(s) {
       output.value += '>>>' + code.value + '\n' + s + '\n';
@@ -45,10 +34,26 @@
     let pyodideReadyPromise = main();
 
     async function evaluatePython() {
+      var payload = code.value;
+      var inputdata = `
+        import json
+
+        def json_format(data):
+            data = data.replace("'", '"')
+
+            data = json.loads(data)
+
+            return json.dumps(data, indent=4, ensure_ascii=False, separators=(',', ': '))
+
+        result = json_format(json.dumps(${payload}))
+      `
+
       await pyodideReadyPromise;
       try {
-        let output = await pyodide.runPythonAsync(code.value);
-        // addToOutput(output);
+        let output = await pyodide.runPythonAsync(inputdata);
+        let result = await pyodide.globals.get('result');
+
+        addToOutput(result);
       } catch(err) {
         addToOutput(err);
       }
