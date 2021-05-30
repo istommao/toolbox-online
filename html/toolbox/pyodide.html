@@ -5,15 +5,17 @@
 </head>
 
 <body>
-  <p>You can execute any Python code. Just enter something in the box below and click the button.</p>
-  <input id='code' value='sum([1, 2, 3, 4, 5])'>
+  <p>Python Dict Format</p>
+  <!-- <input id='code' value='x'> -->
+  <textarea id='code' style='width: 100%;' rows='6'></textarea>
   <button onclick='evaluatePython()'>Run</button>
   <br>
   <br>
   <div>
     Output:
   </div>
-  <textarea id='output' style='width: 100%;' rows='6' disabled></textarea>
+
+  <textarea id='output' style='min-height: 300px; width: 100%;' disabled></textarea>
 
   <script>
     const output = document.getElementById("output");
@@ -32,10 +34,26 @@
     let pyodideReadyPromise = main();
 
     async function evaluatePython() {
+      var payload = code.value;
+      var inputdata = `
+        import json
+
+        def json_format(data):
+            data = data.replace("'", '"')
+
+            data = json.loads(data)
+
+            return json.dumps(data, indent=4, ensure_ascii=False, separators=(',', ': '))
+
+        result = json_format(json.dumps(${payload}))
+      `
+
       await pyodideReadyPromise;
       try {
-        let output = await pyodide.runPythonAsync(code.value);
-        addToOutput(output);
+        let output = await pyodide.runPythonAsync(inputdata);
+        let result = await pyodide.globals.get('result');
+
+        addToOutput(result);
       } catch(err) {
         addToOutput(err);
       }
