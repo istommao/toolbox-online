@@ -88,7 +88,12 @@ var editorObject = monaco.editor.create(InputData, configOptions);
 (function() {
 
     function runLuaCode(rawcode) {
-        fengari.load(rawcode)()
+        try {
+            fengari.load(rawcode)();  
+        } catch (err) {
+            console.log('>>> ERROR\n' + err);
+        }
+        
     }
 
     var old = console.log;
