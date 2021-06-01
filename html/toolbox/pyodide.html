@@ -4,18 +4,9 @@
 <link
     rel="stylesheet"
     data-name="vs/editor/editor.main"
-    href="/static/monaco-editor/min/vs/editor/editor.main.css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/editor/editor.main.css"
 />
 <style>
-.main {
-    width: 100%;
-    padding: 15px 10px 15px 10px;
-    box-shadow: 0 1px 5px rgba(180, 195, 255, .3);
-    -webkit-transition: all .2s ease;
-    transition: all .2s ease;
-    border-radius: 2px;
-}
-
 #htmlpreview {
     display: block;
    /* justify-content: center;
@@ -65,12 +56,12 @@ textarea {
 
 {% block extendScript %}
 <script>
-    var require = { paths: { vs: '/static/monaco-editor/min/vs' } };
+    var require = { paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs' } };
 </script>
-<script src="/static/monaco-editor/min/vs/loader.js"></script>
-<script src="/static/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
-<script src="/static/monaco-editor/min/vs/editor/editor.main.js"></script>
-<script src="/static/pyodide/pyodide.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/loader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/editor/editor.main.nls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/editor/editor.main.js"></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.17.0/full/pyodide.js"></script>
 
 <script>
 var InputData = document.getElementById('InputData');
@@ -99,6 +90,7 @@ var PreviewBox = document.getElementById('PreviewBox');
     InputData.onkeyup = delay(function(event) {
         const rawcode = editorObject.getValue();
         if (rawcode) {
+          PreviewBox.value = '';
           evaluatePython();
         }
     }, 1200);
@@ -124,7 +116,9 @@ function addToOutput(s) {
 PreviewBox.value = 'Initializing...\n';
 // init Pyodide
 async function main(){
-  await loadPyodide({ indexURL : '/static/pyodide/' });
+  // await loadPyodide({ indexURL : '/static/pyodide/' });
+  await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.17.0/full/'});
+
   PreviewBox.value += 'Ready!\n';
 }
 
