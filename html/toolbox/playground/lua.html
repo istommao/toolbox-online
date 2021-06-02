@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}ToolBox Lua{% endblock %}
+{% block title %}ToolBox Playground Lua{% endblock %}
 {% block extendStyle %}
 <link
     rel="stylesheet"
@@ -67,18 +67,6 @@ var PreviewBox = document.getElementById('PreviewBox');
 
 const defaultValue = `-- first lua code
 print("Hello World")
-
---[[
- 这是块注释
- 这是块注释
- --]]
-print(type("Hello world"))      --> string
-print(type(10.4*3))             --> number
-print(type(print))              --> function
-print(type(type))               --> function
-print(type(true))               --> boolean
-print(type(nil))                --> nil
-print(type(type(X)))            --> string
 `
 
 const configOptions = {

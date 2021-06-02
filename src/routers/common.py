@@ -22,6 +22,23 @@ async def index_page(request: Request):
     return templates.TemplateResponse('toolbox/index.html', {'request': request})
 
 
+@router.get('/playground/')
+async def index_page(request: Request):
+    return templates.TemplateResponse('toolbox/playground/index.html', {'request': request})
+
+
+
+@router.get('/playground/{language}/')
+async def index_page(request: Request, language: str):
+    tpl_name = 'toolbox/playground/{}.html'.format(language)
+    try:
+        resp = templates.TemplateResponse(tpl_name, {'request': request})
+    except jinja2.exceptions.TemplateNotFound:
+        return templates.TemplateResponse('toolbox/index.html', {'request': request})
+    else:
+        return resp
+
+
 @router.get('/tb/{tool_name}/')
 async def tb_page(request: Request, tool_name: str):
     tpl_name = 'toolbox/{}.html'.format(tool_name)

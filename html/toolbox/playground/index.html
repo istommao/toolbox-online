@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block title %}online{% endblock %} {% block
+container %}
+<h1>ToolBox Online</h1>
+<p class="description">共收录 5 种编程语言的 Playground</p>
+<div class="sectors">
+  <div class="sector">
+    <h2>最新</h2>
+    <div class="links">
+      <a href="/playground/lua" class="link"
+        ><img src="/static/imgs/lua.png" alt="" />
+        <div class="info">
+          <h3>Lua</h3>
+          <p>Lua Playground</p>
+        </div>
+      </a>
+      <a href="/playground/python" class="link"
+        ><img src="/static/imgs/python.png" alt="" />
+        <div class="info">
+          <h3>Python</h3>
+          <p>Python Playground</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  {% endblock %}
+</div>
