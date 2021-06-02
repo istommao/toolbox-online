@@ -1,5 +1,11 @@
 
-const helloCode = `-- first lua code
+const helloCode = `
+--[[
+    基于 fengari-web
+    https://github.com/fengari-lua/fengari-web
+]]
+
+-- first lua code
 print("Hello World")
 `
 
