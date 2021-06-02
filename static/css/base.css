@@ -39,7 +39,7 @@ body {
     background: #fff;
 }
 
-.wrapper .menu_front .container {
+.wrapper .menu_front > .container {
     width: 1200px;
     max-width: 100%;
     margin: 0 auto;
