@@ -27,8 +27,24 @@ print(type(type(value)))            --> string
 `
 
 const tableCode = `-- Lua table
-table = {}
+table = {name = 'codingcat', age = 28}
 print("table 的类型是 ", type(table))
+print(table.name, table.age)
+`
+
+const loopCode = `-- lua loop
+for i = 1, 5 do
+    print(i)
+end
+`
+
+const functionCode = `-- lua function
+function sum(a, b)
+    return a + b
+end
+
+result = sum(1, 3)
+print(result)
 `
 
 const getCodeValue = function(menu_name) {
@@ -43,6 +59,12 @@ const getCodeValue = function(menu_name) {
             break;
         case 'table':
             code_name = tableCode;
+            break;
+        case 'loop':
+            code_name = loopCode;
+            break;
+        case 'function':
+            code_name = functionCode;
             break;
     }
 
