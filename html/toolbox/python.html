@@ -7,6 +7,32 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/editor/editor.main.css"
 />
 <style>
+.page .container {
+    display: flex;
+    width: 1024px;
+}
+
+.container > .leftMenu {
+    width:  250px;
+    background-color: #fff;
+    box-shadow: 0 1px 5px rgba(180, 195, 255, .3);
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+    border-radius: 2px;
+    padding-top: 10px;
+}
+.menuItem {
+    width: 100%;
+    height:  32px;
+    line-height: 32px;
+    text-align: left;
+    text-indent: 20px;
+    cursor: pointer;
+}
+.menuItem:hover {
+    color: #20A0FF;
+}
+
 #htmlpreview {
     display: block;
    /* justify-content: center;
@@ -44,6 +70,12 @@ textarea {
 {% endblock extendStyle %}
 
 {% block container %}
+<div class="leftMenu">
+    <div class="menuItem" onclick="menuItemClick('hello')">Python 入门</div>
+    <div class="menuItem" onclick="menuItemClick('dataType')">数据类型</div>
+    <div class="menuItem" onclick="menuItemClick('loop')">循环</div>
+    <div class="menuItem" onclick="menuItemClick('function')">函数</div>
+</div>
 <div class="main">
    <div id="htmlpreview">
        <div class="boxItem"><div id="InputData"></div></div>
@@ -62,6 +94,8 @@ textarea {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/editor/editor.main.nls.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/editor/editor.main.js"></script>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.17.0/full/pyodide.js"></script>
+
+<script src="/static/python/democode.js" type="text/javascript"></script>
 
 <script>
 var InputData = document.getElementById('InputData');
@@ -129,12 +163,24 @@ async function evaluatePython() {
 
   await pyodideReadyPromise;
   try {
+    PreviewBox.value = '';
     let output = await pyodide.runPythonAsync(rawcode);
 
     // addToOutput(output);
   } catch(err) {
     addToOutput(err);
   }
+}
+
+function menuItemClick(menu_name) {
+    code_name = getCodeValue(menu_name);
+
+    editorObject.getModel().setValue(code_name);
+
+    const rawcode = editorObject.getValue();
+    if (rawcode) {
+        evaluatePython();
+    }
 }
 </script>
 {% endblock extendScript %}
