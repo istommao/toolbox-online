@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}ToolBox IP Address{% endblock %}
+{% block extendStyle %}
+<style>
+#htmlpreview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 450px;
+}
+#htmlpreview > .boxItem{
+    flex: 1;
+    width: 50%;
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+    box-sizing: border-box;
+    height: 450px;
+}
+.boxItem:first-child {
+    border-right: 1px dashed #ccc;
+}
+.boxItem input {
+    border: 1px solid #ccc;
+    height: 30px;
+    line-height: 30px;
+    text-indent: 10px;
+    width: 250px;
+}
+#InputData {
+    width: 100%;
+    height: 450px;
+}
+textarea {
+    resize: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+#PreviewBox {
+    height: 450px;
+    width: 100%;
+    overflow: auto;
+}
+</style>
+{% endblock extendStyle %}
+
+{% block container %}
+<div class="main">
+   <div id="htmlpreview">
+       <div class="boxItem">
+           <div style="height: 60px;line-height: 60px;"><input type="text" value="" id="IPAddress" placeholder="请输入IPV4地址"></div>
+       </div>
+       <div class="boxItem">
+            <textarea placeholder="" id="PreviewBox"></textarea>
+       </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block extendScript %}
+<script>
+var IPAddress = document.getElementById('IPAddress');
+
+var PreviewBox = document.getElementById('PreviewBox');
+
+(function() {
+    IPAddress.focus();
+    IPAddress.onkeyup = delay(function(event) {
+        if (IPAddress.value) {
+            PreviewBox.value = calcTransformIPAddressData(IPAddress.value);
+        }
+    }, 500);
+
+    PreviewBox.onkeyup = delay(function(event) {
+        const value = PreviewBox.value.trim();
+        if (value) {
+            IPAddress.value = calcTransformIPBinData(value);
+        }
+    }, 500);
+
+})();
+
+var calcTransformIPBinData = function(binstr) {
+    var ip_sections = binstr.split(' ');
+    if (ip_sections.length != 4) {
+        return '';
+    }
+
+    var result = [
+        parseInt(ip_sections[0], 2),
+        parseInt(ip_sections[1], 2),
+        parseInt(ip_sections[2], 2),
+        parseInt(ip_sections[3], 2)
+    ].join('.');
+
+    return result;
+}
+
+var calcTransformIPAddressData = function(data) {
+    var ip_sections = data.split('.');
+    if (ip_sections.length != 4) {
+        return '';
+    }
+
+    var pos1 = parseInt(ip_sections[0]);
+    var pos2 = parseInt(ip_sections[1]);
+    var pos3 = parseInt(ip_sections[2]);
+    var pos4 = parseInt(ip_sections[3]);
+
+    if ( [ip_sections[0], ip_sections[1], ip_sections[2], ip_sections[3]].some((num) => num === '') ) {
+        return '无效的IP地址';
+    }
+
+    if ( [pos1, pos2, pos3, pos4].some((num) => num < 0 || num > 255) ) {
+        return '无效的IP地址';
+    }
+
+    var a0 = pos1.toString(2);
+    var a1 = pos2.toString(2);
+    var a2 = pos3.toString(2);
+    var a3 = pos4.toString(2);
+
+    var result = [
+        "00000000".substr(a0.length) + a0,
+        "00000000".substr(a1.length) + a1,
+        "00000000".substr(a2.length) + a2,
+        "00000000".substr(a3.length) + a3,
+    ].join(' ');
+
+    return result;
+}
+
+
+function delay(callback, ms) {
+  var timer = 0;
+  return function() {
+    var context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      callback.apply(context, args);
+    }, ms || 0);
+  };
+}
+</script>
+{% endblock extendScript %}
